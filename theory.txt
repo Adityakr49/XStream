@@ -1,0 +1,62 @@
+In the context of video calls, "mesh" refers to a decentralized network where each participant 
+connects directly to every other participant. An MCU (Multipoint Control Unit) is a centralized 
+device or software component that manages multipoint video conferences by combining audio and 
+video streams from multiple participants and redistributing them to all participants.
+An SFU (Selective Forwarding Unit), on the other hand, selectively forwards audio and video 
+streams from each participant to other participants based on network conditions and preferences, 
+without centralizing all media streams.
+
+What is WebRTC?
+WebRTC (Web Real Time Communication) is an open source project that enables peer-to-peer 
+communication between browsers or the applications (mobile). In other words, WebRTC allows 
+you to exchange any kind of media through the web (such as video, audio and data) without any 
+required plugin or framework.
+Applications which are using WebRTC
+• Google Meet and Google Hangouts
+• Facebook Messenger
+• Discord
+
+What is signaling server ?
+• Signaling server does not do anything that is WebRTC-specific.
+• Signaling server helps to exchange necessary information which are required to establish 
+direct connection between users
+• For signaling we can use whatever we like, from WebSocket to XMLHttpRequest
+
+What is STUN server ?
+• STUN (Session Traversal Utilities for NAT) that allows clients to discover their 
+public IP address and the type of NAT they are behind.
+This information is used to establish the media connection.
+• In 15-20% cases STUN server will fail and to establish connection between 
+the peers we will need TURN server
+
+What is TURN server?
+TURN server is Traversal Using Relay NAT, and it is a protocol for relaying network traffic
+TURN server will be used if STUN server will fail
+TURN server will be used as an assist to establish connection between the peers
+TURN Servers are not public because of the costs which they can generate because of the 
+traffic which is going through them
+If two server are not able to make connection data will be routed through turn server
+
+What is SDP(session description protocol) ?
+• The Session Description Protocol is a format to describing multimedia communication 
+sessions for the purposes of session announcement and session invitation
+• It does not deliver the media data but is used for negotiation between peers of various 
+audio and video codecs, source address, timing information of audio and video
+(sends through signaling server)
+
+What are ICE candidates ?
+• As well as exchanging information about the media (discussed above in Offer/Answer and SDP), 
+peers must exchange information about the network connection. This is known as an ICE candidate 
+and details the available methods the peer is able to communicate (directly or through a 
+TURN server). Typically, each peer will propose its best candidates first, making their way down 
+the line toward their worse candidates. Ideally, candidates are UDP (since it's faster, and 
+media streams are able to recover from interruptions relatively easily), but the ICE standard 
+does allow TCP candidates as well
+
+How it works
+Caller John send WebRTC offer to callie kate through signaling server and then kate will reply 
+with WebRTC answer through signaling server. Caller John gets it ice candidates from STUN server
+and Kate does same and then send this to each other through signaling server.
+then direct 2 point connection/stream will start but sometimes that connection will not work due to
+as one of the user will not able to connect with other user directly so in that case TURN server
+will be used.
