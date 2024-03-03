@@ -1,8 +1,8 @@
 import io from "socket.io-client";
-import { setRoomId, setParticipants } from "../store/actions";
+import { setRoomId, setParticipants, setSocketId } from "../store/actions";
 import store from "../store/store";
 import * as webRTCHandler from "./webRTCHandler";
-
+import { appendNewMessageToChatHistory } from "./directMessages";
 const SERVER = "http://localhost:5002";
 
 let socket = null;
@@ -13,6 +13,7 @@ export const connectWithSocketIOServer = () => {
   socket.on("connect", () => {
     console.log("successfully connected with socket io server");
     console.log(socket.id);
+    store.dispatch(setSocketId(socket.id));
   });
 
   socket.on("room-id", (data) => {
@@ -46,24 +47,28 @@ export const connectWithSocketIOServer = () => {
   socket.on("user-disconnected", (data) => {
     webRTCHandler.removePeerConnection(data);
   });
+
+  socket.on("direct-message", (data) => {
+    appendNewMessageToChatHistory(data);
+  });
 };
 
-export const createNewRoom = (identity,onlyAudio) => {
+export const createNewRoom = (identity, onlyAudio) => {
   // emit an event to server that we would like to create new room
   const data = {
     identity,
-    onlyAudio
+    onlyAudio,
   };
 
   socket.emit("create-new-room", data);
 };
 
-export const joinRoom = (identity, roomId,onlyAudio) => {
+export const joinRoom = (identity, roomId, onlyAudio) => {
   //emit an event to server that we would to join a room
   const data = {
     roomId,
     identity,
-    onlyAudio
+    onlyAudio,
   };
 
   socket.emit("join-room", data);
@@ -71,4 +76,8 @@ export const joinRoom = (identity, roomId,onlyAudio) => {
 
 export const signalPeerData = (data) => {
   socket.emit("conn-signal", data);
+};
+
+export const sendDirectMessage = (data) => {
+  socket.emit("direct-message", data);
 };
