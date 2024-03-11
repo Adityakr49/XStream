@@ -50,7 +50,7 @@ app.get("/api/get-turn-credentials", (req, res) => {
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000,*",
+    origin: "*",
     method: ["GET", "POST"],
   },
 });
