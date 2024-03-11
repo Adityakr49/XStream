@@ -6,9 +6,10 @@ const cors = require("cors");
 const twilio = require("twilio");
 // for using turn server (to fetch tern server credential)
 require("dotenv").config();
+const morgan = require("morgan");
 
 const PORT = process.env.PORT || 5002;
-
+app.use(morgan("tiny"));
 const server = http.createServer(app);
 app.use(cors());
 
