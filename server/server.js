@@ -16,6 +16,10 @@ app.use(cors());
 let connectedUsers = [];
 let rooms = [];
 
+app.get("/testing", (req, res) => {
+  console.log("This is testing route");
+  res.send(true);
+});
 //create route to check if room exists
 app.get("/api/room-exists/:roomId", cors(), (req, res) => {
   const { roomId } = req.params;
