@@ -3,7 +3,7 @@ import { setRoomId, setParticipants, setSocketId } from "../store/actions";
 import store from "../store/store";
 import * as webRTCHandler from "./webRTCHandler";
 import { appendNewMessageToChatHistory } from "./directMessages";
-const SERVER = "https://x-stream-beta.vercel.app";
+const SERVER = "https://xstream-0gan.onrender.com";
 
 let socket = null;
 

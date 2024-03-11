@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const serverApi = "https://x-stream-beta.vercel.app/api";
+const serverApi = "https://xstream-0gan.onrender.com/api";
 
 export const getRoomExists = async (roomId) => {
   const response = await axios.get(`${serverApi}/room-exists/${roomId}`);
