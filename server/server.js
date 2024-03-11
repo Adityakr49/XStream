@@ -5,7 +5,6 @@ const { v4: uuidv4 } = require("uuid");
 const cors = require("cors");
 const twilio = require("twilio");
 // for using turn server (to fetch tern server credential)
-const morgan = require("morgan");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5002;
@@ -13,12 +12,11 @@ const PORT = process.env.PORT || 5002;
 const server = http.createServer(app);
 app.use(cors());
 
-app.use(morgan("tiny"));
 let connectedUsers = [];
 let rooms = [];
 
 //create route to check if room exists
-app.get("/api/room-exists/:roomId", cors(), (req, res) => {
+app.get("/api/room-exists/:roomId", (req, res) => {
   const { roomId } = req.params;
   const room = rooms.find((room) => room.id === roomId);
   if (room) {
@@ -35,13 +33,12 @@ app.get("/api/room-exists/:roomId", cors(), (req, res) => {
 app.get("/api/get-turn-credentials", (req, res) => {
   const accountSid = process.env.SID;
   const authToken = process.env.AUTHTOKEN;
-
   const client = twilio(accountSid, authToken);
   let responseToken = null;
   try {
     client.tokens.create().then((token) => {
       responseToken = token;
-      console.log(token);
+      // console.log(token);
       res.send({ token });
     });
   } catch (error) {
