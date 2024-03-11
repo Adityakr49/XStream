@@ -16,7 +16,7 @@ let connectedUsers = [];
 let rooms = [];
 
 //create route to check if room exists
-app.get("/api/room-exists/:roomId", (req, res) => {
+app.get("/api/room-exists/:roomId", cors(), (req, res) => {
   const { roomId } = req.params;
   const room = rooms.find((room) => room.id === roomId);
   if (room) {
@@ -50,7 +50,7 @@ app.get("/api/get-turn-credentials", (req, res) => {
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000,*",
     method: ["GET", "POST"],
   },
 });

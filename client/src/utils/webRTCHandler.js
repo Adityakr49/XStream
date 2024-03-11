@@ -24,7 +24,7 @@ export const getLocalPreviewAndInitRoomConnection = async (
   roomId = null,
   onlyAudio
 ) => {
-  // await fetchTURNCredentials();
+  await fetchTURNCredentials();
 
   const constraints = onlyAudio ? onlyAudioConstraints : defaultConstraints;
 
@@ -55,6 +55,7 @@ let streams = [];
 
 const getConfiguration = () => {
   const turnIceServers = getTurnIceServers();
+  console.log('Turn server used');
   if (turnIceServers) {
     return {
       iceServers: [
